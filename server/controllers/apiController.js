@@ -6,6 +6,26 @@ export const getHealth = (req, res) => {
   res.status(200).json({ status: "OK", message: "Server is healthy" });
 };
 
+export const getFavorites = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ status: "FAILED", error: "Missing required fields" });
+    }
+    const userFavorites = await db
+      .select()
+      .from(favoritesTable)
+      .where(eq(favoritesTable.userId, userId));
+
+    res.status(200).json({ status: "SUCCESS", userFavorites });
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ status: "FAILED", error: "Internal Server Error" });
+  }
+};
+
 export const addFavorite = async (req, res) => {
   try {
     const { userId, recipeId, title, image, cookTime, servings } = req.body;

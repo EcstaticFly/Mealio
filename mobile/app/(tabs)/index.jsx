@@ -214,9 +214,10 @@ const HomeScreen = () => {
           </View>
 
           {recipes.length > 0 ? (
+            //more performant for large lists (with similar data) than .map()
             <FlatList
               data={recipes}
-              renderItem={({ item }) => <RecipeCard recipe={item} />}
+              renderItem={({ item }) => <RecipeCard recipe={item} />} //this has to be {item} (nothing else)
               keyExtractor={(item) => item.id.toString()}
               numColumns={2}
               columnWrapperStyle={homeStyles.row}

@@ -4,7 +4,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../constants/colors.js";
 
 const TabsLayout = () => {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
+
+  if(!isLoaded) return null;
+
   if (!isSignedIn) {
     <Redirect href={"/(auth)/sign-in"} />;
   }
